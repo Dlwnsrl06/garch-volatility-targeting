@@ -35,7 +35,7 @@ def data_quality_report(df: pd.DataFrame, ticker: str) -> None:
 
     extreme = df[df["log_return"].abs() > 0.10]
     if not extreme.empty:
-        print(f"Dats with |log return| > 10%: {len(extreme)}")
+        print(f"Dates with |log return| > 10%: {len(extreme)}")
         print(extreme[["log_return"]])
 
 def main():
