@@ -29,7 +29,7 @@ The pipeline has two distinct parts:
 | 7 | `04_vol_targeting.sql` | Computes position weights from the forecasts |
 | 8 | `05_evalutation.sql` | Backtests strategy vs. buy-and-hold, computes Sharpe/drawdown/Calmar |
 
-## Configuration (this run)
+## Configuration 
 
 | Parameter | Value |
 |---|---|
