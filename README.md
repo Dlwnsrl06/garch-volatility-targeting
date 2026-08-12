@@ -99,17 +99,17 @@ same-day information.
 
 ## GARCH(1,1) model diagnostics
 
-| Metric | Value |
-|---|---|
-| Mean forecasted vol | 21.51% |
-| Min forecasted vol | 9.85% |
-| Max forecasted vol | 122.71% |
-| Latest forecasted vol | 24.78% |
-| Mean alpha (shock weight) | 0.1295 |
-| Mean beta (memory weight) | 0.8387 |
-| Mean persistence (alpha + beta) | 0.9682 |
-| Refit rate | 2,160 / 2,160 days (every day) |
-| Stationarity | 1 date exhibited persistence ≥ 1.0 (explosive variance) — isolated case, not a broad model breakdown |
+| Symbol | Description | Value |
+|---|---|---|
+| $\text{mean}(\hat{\sigma}_t)$ | Mean forecasted volatility | 21.51% |
+| $\min(\hat{\sigma}_t)$ | Min forecasted volatility | 9.85% |
+| $\max(\hat{\sigma}_t)$ | Max forecasted volatility | 122.71% |
+| $\hat{\sigma}_T$ | Latest forecasted volatility | 24.78% |
+| $\bar{\alpha}$ | Mean alpha (shock weight) | 0.1295 |
+| $\bar{\beta}$ | Mean beta (memory weight) | 0.8387 |
+| $\bar{\alpha} + \bar{\beta}$ | Mean persistence | 0.9682 |
+| — | Refit rate | 2,160 / 2,160 days (every day) |
+| — | Stationarity | 1 date exhibited persistence ≥ 1.0 (explosive variance) — isolated case, not a broad model breakdown |
 
 Persistence close to but generally under 1.0 is expected for equity index
 volatility — it reflects strong (but not infinite) memory in the variance
