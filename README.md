@@ -77,6 +77,26 @@ Each day's fitted ω, α, β come from re-estimating the model on a rolling
 ahead — this is what makes it a *walk-forward* forecast rather than a
 single static fit.
 
+## Position sizing (vol targeting) formula
+
+Each day's position weight is computed from the GARCH forecast as:
+
+$$w_t = \min\left(\frac{\sigma_{target}}{\hat{\sigma}_t},\ w_{max}\right)$$
+
+Where:
+
+| Symbol | Meaning | This run |
+|---|---|---|
+| $w_t$ | Position weight (exposure multiplier) for day $t$ | — |
+| $\sigma_{target}$ | Target annualized portfolio volatility | 10% |
+| $\hat{\sigma}_t$ | GARCH-forecasted annualized volatility for day $t$ | — |
+| $w_{max}$ | Maximum allowed leverage (`weight_clip`) | 1.5x |
+
+The realized weight actually traded on day $t$ is this value computed from
+the *prior* day's information, shifted forward by one trading day
+(`LAG(weight_raw)` in `04_vol_targeting.sql`), so the position never uses
+same-day information.
+
 ## GARCH(1,1) model diagnostics
 
 | Metric | Value |
