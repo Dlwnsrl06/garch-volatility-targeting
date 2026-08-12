@@ -34,12 +34,12 @@ The pipeline has two distinct parts:
 | Parameter | Value |
 |---|---|
 | Ticker | QQQ |
-| GARCH training window | 756 trading days (~3 years) |
-| Refit frequency | Every day |
-| Target annualized volatility | 10% |
-| Max leverage (`weight_clip`) | 1.5x |
-| Out-of-sample period | 2018-01-04 to 2026-08-10 |
-| Forecast/backtest days | 2,160 forecasted / 2,159 evaluated (first day dropped by the 1-day position lag) |
+| GARCH Training Window | 756 trading days (~3 years) |
+| Refit Frequency | Every day |
+| Target Annualized Volatility | 10% |
+| Max Leverage (`weight_clip`) | 1.5x |
+| Out-of-Sample Period | 2018-01-04 to 2026-08-10 |
+| Forecast/Backtest Days | 2,160 forecasted / 2,159 evaluated (first day dropped by the 1-day position lag) |
 
 ## Model specification
 
@@ -47,11 +47,11 @@ The forecast is a zero-mean GARCH(1,1) with normally distributed
 innovations, matching what's implemented in `garch_model.py`
 (`arch_model(..., vol="Garch", p=1, q=1, mean="Zero", dist="Normal")`):
 
-**Return equation:**
+**Return Equation:**
 
 $$r_t = \epsilon_t, \qquad \epsilon_t = \sigma_t z_t, \qquad z_t \sim N(0,1)$$
 
-**Conditional variance equation:**
+**Conditional Variance Equation:**
 
 $$\sigma_t^2 = \omega + \alpha \epsilon_{t-1}^2 + \beta \sigma_{t-1}^2$$
 
@@ -59,11 +59,11 @@ Where:
 
 | Symbol | Meaning |
 |---|---|
-| $\sigma_t^2$ | Forecasted (conditional) variance for day $t$ — the model's target output |
-| $\omega$ (omega) | Constant term — the long-run baseline level of variance |
-| $\alpha$ (alpha) | Weight on yesterday's squared shock — how strongly a recent surprise moves the forecast |
-| $\epsilon_{t-1}^2$ | Yesterday's squared return shock (residual²) |
-| $\beta$ (beta) | Weight on yesterday's forecasted variance — how much "memory" the model has |
+| $\sigma_t^2$ | Forecasted (conditional) variance for day $t$ —> /The model's target output |
+| $\omega$ (omega) | Constant term —> The long-run baseline level of variance |
+| $\alpha$ (alpha) | Weight on yesterday's squared shock —> How strongly a recent surprise moves the forecast |
+| $\epsilon_{t-1}^2$ | Yesterday's squared return shock (*residual²*) |
+| $\beta$ (beta) | Weight on yesterday's forecasted variance —> How much "memory" the model has |
 | $\sigma_{t-1}^2$ | Yesterday's forecasted variance |
 
 The reported **persistence** metric is $\alpha + \beta$: how slowly a volatility shock
@@ -74,10 +74,10 @@ where this occurs.
 
 Each day's fitted ω, α, β come from re-estimating the model on a rolling
 756-day (~3-year) trailing window of returns, then forecasting one step
-ahead — this is what makes it a *walk-forward* forecast rather than a
+ahead; this is what makes it a *walk-forward* forecast rather than a
 single static fit.
 
-## Volatility Targeting Strategy: Exposure position sizing formula
+## Volatility Targeting Strategy: Daily Exposure Sizing 
 
 Each day's position weight is computed from the GARCH forecast as:
 
@@ -101,43 +101,43 @@ same-day information.
 
 | Symbol | Description | Value |
 |---|---|---|
-| $\text{mean}(\hat{\sigma}_t)$ | Mean forecasted volatility | 21.51% |
-| $\min(\hat{\sigma}_t)$ | Min forecasted volatility | 9.85% |
-| $\max(\hat{\sigma}_t)$ | Max forecasted volatility | 122.71% |
-| $\hat{\sigma}_T$ | Latest forecasted volatility | 24.78% |
-| $\bar{\alpha}$ | Mean alpha (shock weight) | 0.1295 |
-| $\bar{\beta}$ | Mean beta (memory weight) | 0.8387 |
-| $\bar{\alpha} + \bar{\beta}$ | Mean persistence | 0.9682 |
-| — | Refit rate | 2,160 / 2,160 days (every day) |
+| $\text{mean}(\hat{\sigma}_t)$ | Mean Forecasted Volatility | 21.51% |
+| $\min(\hat{\sigma}_t)$ | Min Forecasted Volatility | 9.85% |
+| $\max(\hat{\sigma}_t)$ | Max Forecasted Volatility | 122.71% |
+| $\hat{\sigma}_T$ | Latest Forecasted Volatility | 24.78% |
+| $\bar{\alpha}$ | Mean Alpha (shock weight) | 0.1295 |
+| $\bar{\beta}$ | Mean Beta (memory weight) | 0.8387 |
+| $\bar{\alpha} + \bar{\beta}$ | Mean Persistence | 0.9682 |
+| — | Refit Rate | 2,160 / 2,160 days (every day) |
 | — | Stationarity | 1 date exhibited persistence ≥ 1.0 (explosive variance) — isolated case, not a broad model breakdown |
 
 Persistence close to but generally under 1.0 is expected for equity index
-volatility — it reflects strong (but not infinite) memory in the variance
+volatility as it reflects strong (but not infinite) memory in the variance
 process, i.e. volatility shocks decay slowly rather than reverting instantly.
 
-## Results: strategy vs. buy-and-hold
+## Results: Volatility Targeting vs. Buy & Hold
 
-| Metric | Buy & hold QQQ | Vol-targeting strategy |
+| Metric | Vol-Targeting strategy | Buy & hold QQQ |
 |---|---|---|
-| Sharpe ratio | 0.7595 | **0.9260** |
-| Max drawdown | -35.12% | **-15.10%** |
-| Annualized return | **19.94%** | 10.15% |
-| Calmar ratio | 0.5679 | **0.6719** |
+| Sharpe Ratio | **0.9260** | 0.7595 |
+| Max Drawdown | **-15.10%** | -35.12% |
+| Annualized Return | 10.15% | **19.94%** |
+| Calmar Ratio | **0.6719** | 0.5679 |
 
 (n = 2,159 trading days, risk-free rate assumed 0%)
 
-## Interpretation
+## Result Analysis
 
 The vol-targeting strategy delivered a better risk-adjusted return than
 buy-and-hold on every risk-adjusted metric: a higher Sharpe ratio, roughly
 half the maximum drawdown, and a higher Calmar ratio. This is the expected
-signature of volatility targeting — cutting exposure as GARCH senses rising
+signature of volatility targeting as cutting exposure as GARCH senses rising
 volatility tends to reduce exposure heading into turbulent, often
 drawdown-heavy periods, and re-levering during calm stretches.
 
-The trade-off is raw return: the strategy's annualized return (10.15%) is
+The trade-off is the raw return since the strategy's annualized return (10.15%) is
 about half of buy-and-hold's (19.94%). This isn't a sign the strategy
-"failed" — it's a direct consequence of the 10% target volatility being set
+"failed"; it's a direct consequence of the 10% target volatility being set
 below QQQ's actual realized volatility over this period (mean forecasted vol
 was 21.51%), so the strategy was structurally *under*-exposed relative to a
 100%-QQQ position for most of the sample, even after the 1.5x leverage cap.
@@ -147,12 +147,12 @@ return gap, at the cost of a smaller drawdown improvement.
 ## Limitations
 
 - No transaction costs, slippage, or financing/borrowing costs are modeled
-  — the `weight_clip = 1.5` leverage is assumed frictionless.
-- Single ticker (QQQ), single parameter configuration — no walk-forward
+  —> the `weight_clip = 1.5` leverage is assumed frictionless.
+- Single ticker (QQQ), single parameter configuration —> no walk-forward
   validation of the strategy's own hyperparameters (`target_vol`,
   `weight_clip`, GARCH window length).
 - Risk-free rate is assumed to be 0% in the Sharpe ratio calculation.
-- Backtest, not live trading — results reflect historical fit, not a
+- Backtest, not live trading —> results reflect historical fit, not a
   forward guarantee.
 
 ## How to reproduce
