@@ -87,7 +87,7 @@ Where:
 
 | Symbol | Meaning | This run |
 |---|---|---|
-| $w_t$ | Position weight (exposure multiplier) for day $t$ | — |
+| $w_t$ | Position weight (exposure coefficient) for day $t$ compared to the "Buy & Hold" strategy| — |
 | $\sigma_{target}$ | Target annualized portfolio volatility | 10% |
 | $\hat{\sigma}_t$ | GARCH-forecasted annualized volatility for day $t$ | — |
 | $w_{max}$ | Maximum allowed leverage (`weight_clip`) | 1.5x |
