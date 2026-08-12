@@ -49,24 +49,24 @@ innovations, matching what's implemented in `garch_model.py`
 
 **Return equation:**
 
-r_t = ε_t,  ε_t = σ_t · z_t,  z_t ~ N(0, 1)
+$$r_t = \epsilon_t, \qquad \epsilon_t = \sigma_t z_t, \qquad z_t \sim N(0,1)$$
 
 **Conditional variance equation:**
 
-σ_t² = ω + α·ε_(t-1)² + β·σ_(t-1)²
+$$\sigma_t^2 = \omega + \alpha \epsilon_{t-1}^2 + \beta \sigma_{t-1}^2$$
 
 Where:
 
 | Symbol | Meaning |
 |---|---|
-| σ_t² | Forecasted (conditional) variance for day *t* — the model's target output |
-| ω (omega) | Constant term — the long-run baseline level of variance |
-| α (alpha) | Weight on yesterday's squared shock — how strongly a recent surprise moves the forecast |
-| ε_(t-1)² | Yesterday's squared return shock (residual²) |
-| β (beta) | Weight on yesterday's forecasted variance — how much "memory" the model has |
-| σ_(t-1)² | Yesterday's forecasted variance |
+| $\sigma_t^2$ | Forecasted (conditional) variance for day $t$ — the model's target output |
+| $\omega$ (omega) | Constant term — the long-run baseline level of variance |
+| $\alpha$ (alpha) | Weight on yesterday's squared shock — how strongly a recent surprise moves the forecast |
+| $\epsilon_{t-1}^2$ | Yesterday's squared return shock (residual²) |
+| $\beta$ (beta) | Weight on yesterday's forecasted variance — how much "memory" the model has |
+| $\sigma_{t-1}^2$ | Yesterday's forecasted variance |
 
-The reported **persistence** metric is α + β: how slowly a volatility shock
+The reported **persistence** metric is $\alpha + \beta$: how slowly a volatility shock
 decays back toward the long-run average. A value near 1.0 means shocks fade
 very slowly (high memory); a value ≥ 1.0 implies the variance process is
 non-stationary (explosive), which is why `garch_model.py` flags any date
