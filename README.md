@@ -77,7 +77,7 @@ Each day's fitted ω, α, β come from re-estimating the model on a rolling
 ahead — this is what makes it a *walk-forward* forecast rather than a
 single static fit.
 
-## Position sizing (vol targeting) formula
+## Volatility Targeting Strategy: Exposure position sizing formula
 
 Each day's position weight is computed from the GARCH forecast as:
 
