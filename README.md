@@ -3,7 +3,7 @@
 A systematic trading strategy that uses a GARCH(1,1) volatility forecast to
 dynamically size QQQ exposure, backtested against a buy-and-hold QQQ benchmark.
 
-## What this project does
+## Project Objectives
 
 The pipeline has two distinct parts:
 
