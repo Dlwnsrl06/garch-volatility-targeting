@@ -20,7 +20,7 @@ The pipeline has two distinct parts:
 
 | Step | Script | Purpose |
 |---|---|---|
-| 1 | `data_ingestion.py` | Pulls daily OHLCV for QQQ, computes log returns |
+| 1 | `data_ingestion.py` | Pulls daily OHLCV data for QQQ, computes log returns |
 | 2 | `baseline_volatility.py` | Naive rolling realized-volatility baseline |
 | 3 | `garch_model.py` | Walk-forward GARCH(1,1) 1-day-ahead volatility forecasts |
 | 4 | `01_schema.sql` | Creates `prices`, `backtest_runs`, `garch_forecasts` tables |
