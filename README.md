@@ -154,6 +154,8 @@ return gap, at the cost of a smaller drawdown improvement.
 - Risk-free rate is assumed to be 0% in the Sharpe ratio calculation.
 - Backtest, not live trading —> results reflect historical fit, not a
   forward guarantee.
+- For a trading strategy, does not take any risks even if the high volatility
+  was an upward gain 
 
 ## How to reproduce
 
