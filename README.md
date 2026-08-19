@@ -117,7 +117,7 @@ process, i.e. volatility shocks decay slowly rather than reverting instantly.
 
 ## Results: Volatility Targeting vs. Buy & Hold
 
-| Metric | Vol-Targeting strategy | Buy & hold QQQ |
+| Metric | Vol-Targeting Strategy | Buy & Hold Strategy |
 |---|---|---|
 | Sharpe Ratio | **0.9260** | 0.7595 |
 | Max Drawdown | **-15.10%** | -35.12% |
